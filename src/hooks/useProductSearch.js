@@ -1,41 +1,61 @@
 import { useState, useEffect } from 'react';
 
-// TODO: Exercice 3.1 - Créer le hook useDebounce
-// TODO: Exercice 3.2 - Créer le hook useLocalStorage
-
-const useProductSearch = () => {
+const useProductSearch = (searchTerm = '') => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // TODO: Exercice 4.2 - Ajouter l'état pour la pagination
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        // TODO: Exercice 4.2 - Modifier l'URL pour inclure les paramètres de pagination
-        const response = await fetch('https://api.daaif.net/products?delay=1000');
-        if (!response.ok) throw new Error('Erreur réseau');
-        const data = await response.json();
-        setProducts(data.products);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
+  // ✅ Exercice 4.2 - États de pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const limit = 9; // 9 produits par page
+  const skip = (currentPage - 1) * limit;
+
+  // ✅ Exercice 4.1 - Fonction de rechargement
+  const fetchProducts = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      let url = `https://api.daaif.net/products?delay=1000&limit=${limit}&skip=${skip}`;
+
+      if (searchTerm) {
+        url += `&search=${encodeURIComponent(searchTerm)}`;
       }
-    };
 
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Erreur réseau');
+
+      const data = await response.json();
+      setProducts(data.products || []);
+      setTotalPages(Math.ceil(data.total / limit));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Recharger à chaque changement de page ou de recherche
+  useEffect(() => {
     fetchProducts();
-  }, []); // TODO: Exercice 4.2 - Ajouter les dépendances pour la pagination
+  }, [searchTerm, currentPage]);
 
-  // TODO: Exercice 4.1 - Ajouter la fonction de rechargement
-  // TODO: Exercice 4.2 - Ajouter les fonctions pour la pagination
+  // Reset la page quand on tape une nouvelle recherche
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
-  return { 
-    products, 
-    loading, 
+  return {
+    products,
+    loading,
     error,
-    // TODO: Exercice 4.1 - Retourner la fonction de rechargement
-    // TODO: Exercice 4.2 - Retourner les fonctions et états de pagination
+    reload: fetchProducts, // ✅ Exercice 4.1
+    currentPage,
+    totalPages,
+    nextPage: () => setCurrentPage((prev) => Math.min(prev + 1, totalPages)),
+    previousPage: () => setCurrentPage((prev) => Math.max(prev - 1, 1))
   };
 };
 
