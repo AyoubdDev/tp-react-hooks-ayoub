@@ -85,6 +85,26 @@ const ProductList = ({ searchTerm }) => {
         ))}
       </div>
 
+      {/* ✅ Exercice 4.2 - Pagination */}
+      <nav className="mt-4">
+        <ul className="pagination justify-content-center">
+          <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={previousPage}>
+              {translations[language].prev}
+            </button>
+          </li>
+          <li className="page-item">
+            <span className="page-link">
+              {translations[language].page} {currentPage} / {totalPages}
+            </span>
+          </li>
+          <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+            <button className="page-link" onClick={nextPage}>
+              {translations[language].next}
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };
