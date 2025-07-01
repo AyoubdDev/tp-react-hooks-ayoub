@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, use, useEffect, useState } from 'react';
 import ProductList from './components/ProductList';
 import ProductSearch from './components/ProductSearch';
 import ThemeToggle from './components/ThemeToggle';
@@ -8,7 +8,7 @@ export const ThemeContext = createContext();
 export const LanguageContext = createContext();
 
 const App = () => {
-  const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const [isDarkTheme, setIsDarkTheme] = useState();
   const [language, setLanguage] = useState('fr'); // ✅ Exercice 2.2
   const [searchTerm, setSearchTerm] = useState(''); // pour la recherche
 
@@ -23,6 +23,20 @@ const App = () => {
     }
   };
 
+
+  useEffect(() => {
+
+    setIsDarkTheme(localStorage.getItem('isDarkTheme') === 'true');
+setIsDarkTheme(localStorage.getItem('isDarkTheme') === 'true');
+setLanguage(localStorage.getItem('language') || 'fr');
+    console.log(localStorage.getItem('isDarkTheme'), language);
+    
+
+  }, []);
+
+    
+    
+
   return (
     <ThemeContext.Provider value={{ isDarkTheme, setIsDarkTheme }}>
       <LanguageContext.Provider value={{ language, setLanguage }}>
@@ -36,7 +50,12 @@ const App = () => {
               <select
                 className={`form-select w-auto ${isDarkTheme ? 'bg-dark text-light border-light' : 'bg-light'}`}
                 value={language}
-                onChange={(e) => setLanguage(e.target.value)}
+          onChange={(e) => {
+  const newLang = e.target.value;
+  setLanguage(newLang);
+  localStorage.setItem('language', newLang);
+}}
+
               >
                 <option value="fr">Français</option>
                 <option value="en">English</option>

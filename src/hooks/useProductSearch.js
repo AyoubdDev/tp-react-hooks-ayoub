@@ -8,6 +8,7 @@ const useProductSearch = (searchTerm = '') => {
   // ✅ Exercice 4.2 - États de pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [originalProducts, setOriginalProducts] = useState([]);
 
   const limit = 9; // 9 produits par page
   const skip = (currentPage - 1) * limit;
@@ -20,15 +21,20 @@ const useProductSearch = (searchTerm = '') => {
     try {
       let url = `https://api.daaif.net/products?delay=1000&limit=${limit}&skip=${skip}`;
 
-      if (searchTerm) {
-        url += `&search=${encodeURIComponent(searchTerm)}`;
-      }
+  
 
       const response = await fetch(url);
       if (!response.ok) throw new Error('Erreur réseau');
 
       const data = await response.json();
+
+
+
+
+
       setProducts(data.products || []);
+
+      setOriginalProducts(data.products);
       setTotalPages(Math.ceil(data.total / limit));
     } catch (err) {
       setError(err.message);
@@ -40,7 +46,22 @@ const useProductSearch = (searchTerm = '') => {
   // ✅ Recharger à chaque changement de page ou de recherche
   useEffect(() => {
     fetchProducts();
-  }, [searchTerm, currentPage]);
+
+    console.log("searchTerm", searchTerm);
+    console.log("currentPage", currentPage);
+    
+  }, [ currentPage]);
+
+useEffect(() => {
+  const newData = originalProducts.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  setProducts(newData);
+}, [searchTerm, originalProducts]);
+
+
+
+
 
   // Reset la page quand on tape une nouvelle recherche
   useEffect(() => {

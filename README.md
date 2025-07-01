@@ -1,104 +1,132 @@
+Voici le **fichier `README.md` complet**, propre et prêt à être copié dans ton dépôt GitHub :
+
+---
+
+````md
 # TP React Hooks - Application de Gestion de Produits
 
-Ce TP a pour objectif de mettre en pratique l'utilisation des Hooks React (useState, useEffect, useContext) ainsi que la création de Hooks personnalisés.
+Ce TP a pour objectif de mettre en pratique l'utilisation des Hooks React (`useState`, `useEffect`, `useContext`) ainsi que la création de Hooks personnalisés (`useDebounce`, `useLocalStorage`).
 
-## Installation et configuration initiale
+---
 
-1. Cloner le dépôt :
+## 🚀 Installation
+
 ```bash
-git clone https://github.com/pr-daaif/tp-react-hooks.git
-cd tp-react-hooks
-```
-
-2. Créer votre propre dépôt sur Github et changer le remote :
-```bash
-# Supprimer le remote origine
-git remote remove origin
-
-# Ajouter votre nouveau remote
-git remote add origin https://github.com/[votre-username]/tp-react-hooks.git
-
-# Premier push
-git push -u origin main
-```
-
-3. Installer les dépendances :
-```bash
+git clone https://github.com/AyoubdDev/tp-react-hooks-ayoub.git
+cd tp-react-hooks-ayoub
 npm install
-```
-
-4. Lancer l'application :
-```bash
 npm start
-```
+````
 
-## Instructions pour le TP
+---
+
+## 📚 Instructions Générales
 
 Pour chaque exercice :
-1. Lisez attentivement l'énoncé
-2. Implémentez la solution
-3. Testez votre implémentation (pensez à faire des copies d'écran)
-4. Mettez à jour la section correspondante dans ce README avec :
-   - Une brève explication de votre solution
-   - Des captures d'écran montrant le fonctionnement
-   - Les difficultés rencontrées et comment vous les avez résolues
-5. Commitez vos changements avec un message descriptif
 
-### Exercice 1 : État et Effets 
-#### Objectif : Implémenter une recherche en temps réel
+1. Lire attentivement l'énoncé
+2. Implémenter la solution
+3. Tester et capturer le résultat
+4. Mettre à jour ce fichier `README.md`
+5. Faire un commit avec un message clair (`Exercice 1 : useState`...)
 
-- [ ] 1.1 Modifier le composant ProductSearch pour utiliser la recherche
-- [ ] 1.2 Implémenter le debounce sur la recherche
-- [ ] 1.3 Documenter votre solution ici
+---
 
-_Votre réponse pour l'exercice 1 :_
-```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+## ✅ Exercice 1 : État et Effets
 
-### Exercice 2 : Context et Internationalisation
-#### Objectif : Gérer les préférences de langue
+### 🔹 1.1 Recherche
 
-- [ ] 2.1 Créer le LanguageContext
-- [ ] 2.2 Ajouter le sélecteur de langue
-- [ ] 2.3 Documenter votre solution ici
+J’ai utilisé `useState` dans `ProductSearch` pour stocker le texte de recherche. Le texte est ensuite utilisé par le hook `useProductSearch` pour filtrer les produits.
 
-_Votre réponse pour l'exercice 2 :_
-```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+### 🔹 1.2 useDebounce
 
-### Exercice 3 : Hooks Personnalisés
-#### Objectif : Créer des hooks réutilisables
+Création d’un hook `useDebounce` qui retourne la valeur tapée avec un délai de 500ms. Il permet d’éviter les appels réseau à chaque frappe.
 
-- [ ] 3.1 Créer le hook useDebounce
-- [ ] 3.2 Créer le hook useLocalStorage
-- [ ] 3.3 Documenter votre solution ici
+### 🧠 Difficultés
 
-_Votre réponse pour l'exercice 3 :_
-```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+* Synchronisation entre la recherche et le chargement.
+* Contrôle du délai pour améliorer l’expérience utilisateur.
 
-### Exercice 4 : Gestion Asynchrone et Pagination
-#### Objectif : Gérer le chargement et la pagination
+### 📸 Capture :
 
-- [ ] 4.1 Ajouter le bouton de rechargement
-- [ ] 4.2 Implémenter la pagination
-- [ ] 4.3 Documenter votre solution ici
+![Recherche avec debounce](./public/screenshots/ex1.png)
 
-_Votre réponse pour l'exercice 4 :_
-```
-Expliquez votre solution ici
-[Ajoutez vos captures d'écran]
-```
+---
 
-## Rendu
+## ✅ Exercice 2 : Context et Internationalisation
 
-- Ajoutez l'URL de votre dépôt Github dans  **Classroom** et envoyer la réponse dès le démarage de votre projet.
-- Les push doivent se faire au fûr et à mesure que vous avancez dans votre projet.
-- Le README.md doit être à jour avec vos réponses et captures d'écran. 
-- Chaques exercice doit faire l'objet d'au moins un commit avec un message mentionnant le numéro de l'exercice.
+### 🔹 2.1 LanguageContext
+
+Création d’un `LanguageContext` dans `App.jsx` avec un état `language` (`fr` ou `en`). Il est utilisé dans tous les composants pour adapter le texte.
+
+### 🔹 2.2 Sélecteur de langue
+
+Ajout d’un `<select>` dans l’en-tête de l’application. Les textes changent automatiquement selon la langue choisie.
+
+### 🧠 Difficultés
+
+* Organisation des traductions (`fr` / `en`)
+* Gestion du changement dynamique
+
+### 📸 Capture :
+
+![Sélecteur de langue](./public/screenshots/ex2.png)
+
+---
+
+## ✅ Exercice 3 : Hooks Personnalisés
+
+### 🔹 3.1 useDebounce
+
+Voir exercice 1.2 – utilisé pour la recherche avec délai.
+
+### 🔹 3.2 useLocalStorage
+
+Création d’un hook qui lit/écrit dans `localStorage`. Il est utilisé pour sauvegarder :
+
+* Le thème (sombre ou clair)
+* La langue choisie
+
+### 📸 Capture :
+
+![Hook useLocalStorage](./public/screenshots/ex3.png)
+
+---
+
+## ✅ Exercice 4 : Gestion Asynchrone et Pagination
+
+### 🔹 4.1 Rechargement
+
+Ajout d’un bouton "🔄 Recharger" qui relance manuellement le `fetch` des produits.
+
+### 🔹 4.2 Pagination
+
+Affichage de 9 produits par page avec boutons `Précédent` et `Suivant`. Les états `currentPage` et `totalPages` sont gérés dans le hook.
+
+### 🧠 Difficultés
+
+* Gestion dynamique des pages
+* Synchronisation entre recherche, chargement et pagination
+
+### 📸 Capture :
+
+![Pagination et rechargement](./public/screenshots/ex4.png)
+
+---
+
+## 📝 Rendu Final
+
+* ✅ Projet complet avec les 4 exercices terminés
+* ✅ README documenté avec captures
+* ✅ Commit clair pour chaque étape (`Exercice 2 : Context`)
+* ✅ Lien GitHub à envoyer dans Classroom :
+
+🔗 **Lien du projet** : [https://github.com/AyoubdDev/tp-react-hooks-ayoub](https://github.com/AyoubdDev/tp-react-hooks-ayoub)
+
+---
+
+## 👨‍💻 Auteur
+
+* **Nom :** Hilali Ayoub
+
+
