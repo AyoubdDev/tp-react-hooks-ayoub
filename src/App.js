@@ -24,6 +24,15 @@ const App = () => {
   };
 
 
+  useEffect(() => {
+
+    setIsDarkTheme(localStorage.getItem('isDarkTheme') === 'true');
+setIsDarkTheme(localStorage.getItem('isDarkTheme') === 'true');
+setLanguage(localStorage.getItem('language') || 'fr');
+    console.log(localStorage.getItem('isDarkTheme'), language);
+    
+
+  }, []);
 
     
     
@@ -44,7 +53,7 @@ const App = () => {
           onChange={(e) => {
   const newLang = e.target.value;
   setLanguage(newLang);
-
+  localStorage.setItem('language', newLang);
 }}
 
               >
